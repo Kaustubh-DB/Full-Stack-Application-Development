@@ -43,43 +43,6 @@ class GitApiComponent extends Component {
 
     }
 
-    async getIssues(){
-
-        const url = "https://api.github.com/search/issues?q=author:raisedadead repo:freeCodeCamp/freeCodeCamp type:issue"
-        const response = await fetch(url)
-        const result = await response.json()
-        console.log(result)
-       // result.items.foreach(i => console.log(i.full_name))
-
-          Array.prototype.forEach.call(result.items, child => {
-              console.log(child.title)
-        });
-        // // fetch("")
-        // .then(res => res.json())
-        // .then(data => {
-        //     setData(data)
-        // })
-    }
-
-    async getCommits(){
-
-        const url = "https://api.github.com/search/commits?q=repo:freeCodeCamp/freeCodeCamp"
-        const response = await fetch(url)
-        const result = await response.json()
-        console.log(result)
-       // result.items.foreach(i => console.log(i.full_name))
-
-        //   Array.prototype.forEach.call(result.items, child => {
-        //       console.log(child.title)
-        // });
-        // // fetch("")
-        // .then(res => res.json())
-        // .then(data => {
-        //     setData(data)
-        // })
-    }
-
-
     async useEffect(){
         // https://api.github.com/repos/twitter/bootstrap/branches
         //# https://api.github.com/repos/:user/:repo/branches
@@ -95,6 +58,51 @@ class GitApiComponent extends Component {
         //     setData(data)
         // })
     }
+
+    
+    async getIssues(){
+
+        const url = "https://api.github.com/search/issues?q=author:raisedadead repo:freeCodeCamp/freeCodeCamp type:issue"
+        const response = await fetch(url)
+        const result = await response.json()
+        console.log(result)
+       // result.items.foreach(i => console.log(i.full_name))
+
+          Array.prototype.forEach.call(result.items, child => {
+              console.log(child.commit)
+        });
+        // // fetch("")
+        // .then(res => res.json())
+        // .then(data => {
+        //     setData(data)
+        // })
+    }
+
+    async getStatistics(){
+
+        const url = "https://api.github.com/repos/Kaustubh-DB/Empirical-Java/stats/contributors"
+        const headers = {
+            "Accept" : "application/vnd.github.cloak-preview"
+        }
+        const response = await fetch(url,{
+            "method" : "GET",
+            "headers" : headers
+        })
+        const result = await response.json()
+        console.log(result)
+       // result.items.foreach(i => console.log(i.full_name))
+
+        //   Array.prototype.forEach.call(result.items, child => {
+        //       console.log(child.commit.message.substr(0,120))
+        // });
+        // // fetch("")
+        // .then(res => res.json())
+        // .then(data => {
+        //     setData(data)
+        // })
+    }
+
+
 
     render() {
         console.log('render')
@@ -114,7 +122,7 @@ class GitApiComponent extends Component {
                         <button className="btn btn-success"onClick={this.getIssues} >Issues</button>
                         </div>
                         <div>
-                        <button className="btn btn-success"onClick={this.getCommits} >Commits</button>
+                        <button className="btn btn-success"onClick={this.getStatistics} >Commits</button>
                         </div>
                 </div>
             </div>
