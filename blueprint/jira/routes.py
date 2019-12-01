@@ -7,7 +7,7 @@ import json
 from bson.objectid import ObjectId
 
 mod = Blueprint('jira', __name__)
-connection = 'mongodb://heroku_hpkv6n2z:o7srfm2i8egtbu0td9vtgk6jp0@ds349618.mlab.com:49618/heroku_hpkv6n2z'
+connection = 'mongodb://heroku_hpkv6n2z:o7srfm2i8egtbu0td9vtgk6jp0@ds349618.mlab.com:49618/heroku_hpkv6n2z?retryWrites=false'
 client = MongoClient(connection)
 db = client['heroku_hpkv6n2z']
 
@@ -28,21 +28,23 @@ def get_jira_usage():
     }
 
     response = requests.get(url,headers=headers)
+    response = json.loads(response.text)
 
     issues = response['issues']
     issues_list = []
     for i in issues:
         d = {}
-        print(i)
-        d["created_date"] = i["created"]
+        d["created_date"] = i["fields"]["created"]
 
-        d["resolution_date"] = i["resolutiondate"]
+        d["resolution_date"] = i["fields"]["resolutiondate"]
         issues_list.append(d)
 
     data = {
-        "issues": issues_list
-    }
-    r = db.testing.update({"jira_key": jira_key}, data)
+        "$set":{
+            "issues": issues_list
+        }
 
-    print(issues)
-    return data
+    }
+    r = db.jira.update_one({"jira_key": jira_key}, data)
+    print()
+    return jsonify(issues_list)
