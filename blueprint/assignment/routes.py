@@ -11,11 +11,11 @@ db = client['heroku_hpkv6n2z']
 
 @mod.route("/assignments", methods = ['GET'])
 def get_assignment():
-
     results = []
 
     for field in db.testing.find():
-        results.append({'_id': str(field['_id']), 'name': field['name']})
+        field['_id'] = str(field['_id'])
+        results.append(field)
     return jsonify(results)
 
 @mod.route("/new/assignment", methods = ['POST'])
