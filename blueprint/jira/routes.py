@@ -6,13 +6,13 @@ from requests.auth import HTTPBasicAuth
 import json
 from bson.objectid import ObjectId
 
-mod = Blueprint('jira', __name__)
+jira = Blueprint('jira', __name__)
+
 connection = 'mongodb://heroku_hpkv6n2z:o7srfm2i8egtbu0td9vtgk6jp0@ds349618.mlab.com:49618/heroku_hpkv6n2z?retryWrites=false'
 client = MongoClient(connection)
 db = client['heroku_hpkv6n2z']
 
-
-@mod.route("/api/jira-usage", methods = ['GET'])
+@jira.route("/api/jira-usage", methods = ['GET'])
 def get_jira_usage():
 
     data = request.get_json()

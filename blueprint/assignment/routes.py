@@ -2,14 +2,13 @@ from flask import Blueprint
 from flask import Flask, jsonify, request
 from flask_pymongo import MongoClient
 from bson.objectid import ObjectId
-from flask_cors import CORS
 
-mod = Blueprint('assignment', __name__)
+jira = Blueprint('assignment', __name__)
 connection = 'mongodb://heroku_hpkv6n2z:o7srfm2i8egtbu0td9vtgk6jp0@ds349618.mlab.com:49618/heroku_hpkv6n2z?retryWrites=false'
 client = MongoClient(connection)
 db = client['heroku_hpkv6n2z']
 
-@mod.route("/assignments", methods = ['GET'])
+@jira.route("/assignments", methods = ['GET'])
 def get_assignment():
     results = []
 
@@ -18,19 +17,20 @@ def get_assignment():
         results.append(field)
     return jsonify(results)
 
-@mod.route("/new/assignment", methods = ['POST'])
+@jira.route("/new/assignment", methods = ['POST'])
 def add_assignment():
 
     data = request.get_json()
+    print(data)
     name = data['name']
     start = data['start']
     end = data['end']
 
     assignment_id = db.testing.insert({'name': name, 'start': start, 'end': end, 'teams': []})
     new_assignment = db.testing.find_one({'_id':assignment_id})
-    return jsonify({'assignment_id': assignment_id})
+    return jsonify({'assignment_id': str(assignment_id)})
 
-@mod.route("/new/teams", methods = ['POST'])
+@jira.route("/new/teams", methods = ['POST'])
 def add_teams():
 
     data = request.get_json()
