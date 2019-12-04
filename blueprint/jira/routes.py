@@ -17,34 +17,85 @@ client = MongoClient(connection)
 db = client['heroku_hpkv6n2z']
 
 
-@jira.route("/api/created_resolved", methods=['GET'])
-def created_resolved_chart():
+@jira.route("/api/resolution_time", methods=['GET'])
+def resolution_time_chart():
     data = request.get_json()
     jira_key = data['jira_key']
     assignment_id = data["assignment_id"]
-    issues = db.jira.find_one({"jira_key": jira_key}, {"_id": 0, "issues": 1})
+    issues = db.jira.find_one({"jira_key": jira_key}, {"_id": 0, "issues": 1})   
+    issues = issues["issues"]
     proj = {
         "start":1,
         "end": 1
     }
     start_end = db.testing.find_one({"_id": ObjectId(assignment_id)}, proj)
-    print(start_end)
     start_date = start_end["start"].split("/")
     end_date = start_end["end"].split("/")
-    print()
     sdate = date(int(start_date[2]), int(start_date[0]), int(start_date[1]))   # start date
     edate = date(int(end_date[2]), int(end_date[0]), int(end_date[1]))    # end date
-
     delta = edate - sdate       # as timedelta
-    dates = []
+    avg_resolution_time = {}
     for i in range(delta.days + 1):
         day = sdate + timedelta(days=i)
-        
-        dates.append(day)
+        date_str = day.strftime("%Y-%m-%d").split(" ")[0]
+        avg_resolution_time[date_str] = 0
+    sum = 0
+    num_issues_resolved = 0
+    for issue in issues:
+        if issue["resolution_date"] != "null":
+            issue = dict(issue)
+            res_date = issue["resolution_date"].split("-")
+            creat_date = issue["created_date"].split("-")
+            res_date = date(int(res_date[0]), int(res_date[1]), int(res_date[2]))
+            creat_date = date(int(creat_date[0]), int(creat_date[1]), int(creat_date[2]))
+            current_res_time = (res_date - creat_date).days + 1
+            sum += current_res_time
+            num_issues_resolved += 1
+            avg_resolution_time[issue["resolution_date"]] = sum/num_issues_resolved   
+    resp = {
+        "average_resolution_time": list(avg_resolution_time.values()),
+        "dates": list(avg_resolution_time.keys()),
+    }
+    return jsonify(resp)
 
-    print(dates)
 
-    return jsonify(dates)
+@jira.route("/api/created_resolved", methods=['GET'])
+def created_resolved_chart():
+    data = request.get_json()
+    jira_key = data['jira_key']
+    assignment_id = data["assignment_id"]
+    issues = db.jira.find_one({"jira_key": jira_key}, {"_id": 0, "issues": 1})   
+    issues = issues["issues"]
+    proj = {
+        "start":1,
+        "end": 1
+    }
+    start_end = db.testing.find_one({"_id": ObjectId(assignment_id)}, proj)
+    start_date = start_end["start"].split("/")
+    end_date = start_end["end"].split("/")
+    sdate = date(int(start_date[2]), int(start_date[0]), int(start_date[1]))   # start date
+    edate = date(int(end_date[2]), int(end_date[0]), int(end_date[1]))    # end date
+    delta = edate - sdate       # as timedelta
+    dates = []
+    created_issues = {}
+    resolved_issues = {}
+    for i in range(delta.days + 1):
+        day = sdate + timedelta(days=i)
+        date_str = day.strftime("%Y-%m-%d").split(" ")[0]
+        dates.append(date_str)
+        created_issues[date_str] = 0
+        resolved_issues[date_str] = 0
+    for issue in issues:
+        issue = dict(issue)
+        created_issues[issue["created_date"]] += 1
+        if issue['resolution_date'] != "null":
+            resolved_issues[issue["created_date"]] += 1
+    resp = {
+        "created_issues": list(created_issues.values()),
+        "resolved_issues": list(resolved_issues.values()),
+        "dates": dates
+    }
+    return jsonify(resp)
 
 
 
