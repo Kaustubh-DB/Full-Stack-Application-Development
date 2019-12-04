@@ -17,6 +17,20 @@ client = MongoClient(connection)
 db = client['heroku_hpkv6n2z']
 
 
+@jira.route("/api/assignee_report", methods=["GET"])
+def assignee_report_chart():
+    data = request.get_json()
+    jira_key = data['jira_key']
+    assignment_id = data["assignment_id"]
+    issues = db.jira.find_one({"jira_key": jira_key}, {"_id": 0, "issues": 1})
+    issues = issues["issues"]
+    map_assignee = {}
+    for issue in issues:
+        issue = dict(issue)
+        map_assignee[issue['assignee_name']] = map_assignee.get(issue['assignee_name'], 0) + 1
+    return jsonify(map_assignee)
+
+
 @jira.route("/api/resolution_time", methods=['GET'])
 def resolution_time_chart():
     data = request.get_json()
@@ -118,6 +132,8 @@ def get_jira_usage():
         d["created_date"] = i["fields"]["created"].split("T")[0]
 
         d["resolution_date"] = i["fields"]["resolutiondate"].split("T")[0] if i["fields"]["resolutiondate"] else "null"
+        print(i)
+        d["assignee_name"] = i["fields"]["assignee"]["name"] if i["fields"]["assignee"] else "null"
         issues_list.append(d)
     data = {
         "$set":{
