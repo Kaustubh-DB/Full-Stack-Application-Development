@@ -17,6 +17,51 @@ client = MongoClient(connection)
 db = client['heroku_hpkv6n2z']
 
 
+
+@jira.route("/api/createResolvedCumulative", methods=["GET"])
+def create_resolved_cumulative():
+    data = request.get_json()
+    jira_key = data['jira_key']
+    assignment_id = data["assignment_id"]
+    issues = db.jira.find_one({"jira_key": jira_key}, {"_id": 0, "issues": 1})
+    issues = issues["issues"]
+    proj = {
+        "start":1,
+        "end": 1
+    }
+    start_end = db.testing.find_one({"_id": ObjectId(assignment_id)}, proj)
+    start_date = start_end["start"].split("/")
+    end_date = start_end["end"].split("/")
+    sdate = date(int(start_date[2]), int(start_date[0]), int(start_date[1]))   # start date
+    edate = date(int(end_date[2]), int(end_date[0]), int(end_date[1]))    # end date
+    delta = edate - sdate       # as timedelta
+    created_issues = {}
+    resolved_issues = {}
+    for i in range(delta.days + 1):
+        day = sdate + timedelta(days=i)
+        date_str = day.strftime("%Y-%m-%d").split(" ")[0]
+        created_issues[date_str] = 0
+        resolved_issues[date_str] = 0
+    for issue in issues:
+        issue = dict(issue)
+        created_issues[issue["created_date"]] += 1
+        if issue['resolution_date'] != "null":
+            resolved_issues[issue["created_date"]] += 1
+    dates = list(created_issues.keys())
+    created_issues = list(created_issues.values())
+    resolved_issues = list(resolved_issues.values())
+    for i in range(1, len(created_issues)):
+        created_issues[i] = created_issues[i] + created_issues[i-1]
+        resolved_issues[i] = resolved_issues[i] + resolved_issues[i-1]
+    resp = {
+        "created_issues": created_issues,
+        "resolved_issues": resolved_issues,
+        "dates": dates
+    }
+    return jsonify(resp)
+
+
+
 @jira.route("/api/assignee_report", methods=["GET"])
 def assignee_report_chart():
     data = request.get_json()
@@ -117,6 +162,7 @@ def created_resolved_chart():
 def get_jira_usage():
     data = request.get_json()
     jira_key = data['jira_key']
+    assignment_id = data["assignment_id"]
     url = jira_url + '/rest/api/2/search?jql=project="'+ jira_key + '"'
     auth = HTTPBasicAuth("jdeshkar@iu.edu", "amRlc2hrYXI6cXdlcnR5")
     headers = {
@@ -135,11 +181,67 @@ def get_jira_usage():
         print(i)
         d["assignee_name"] = i["fields"]["assignee"]["name"] if i["fields"]["assignee"] else "null"
         issues_list.append(d)
+
+    
+    proj = {
+        "start":1,
+        "end": 1
+    }
+
+    start_end = db.testing.find_one({"_id": ObjectId(assignment_id)}, proj)
+    start_date = start_end["start"].split("/")
+    end_date = start_end["end"].split("/")
+    sdate = date(int(start_date[2]), int(start_date[0]), int(start_date[1]))   # start date
+    edate = date(int(end_date[2]), int(end_date[0]), int(end_date[1]))    # end date
+    delta = edate - sdate       # as timedelta
+    # dates = []
+    created_issues = {}
+    resolved_issues = {}
+    for i in range(delta.days + 1):
+        day = sdate + timedelta(days=i)
+        date_str = day.strftime("%Y-%m-%d").split(" ")[0]
+        # dates.append(date_str)
+        created_issues[date_str] = 0
+        resolved_issues[date_str] = 0
+
+    for issue in issues_list:
+        # issue = dict(issue)
+        created_issues[issue["created_date"]] += 1
+        if issue['resolution_date'] != "null":
+            resolved_issues[issue["created_date"]] += 1
+    print("created")
+    print(created_issues)
+    print("resolved")
+    print(resolved_issues)
+    created_issues = list(created_issues.values())
+    resolved_issues = list(resolved_issues.values())
+    
+    diff_created = 0
+    diff_resolved = 0
+    for i in range(1, len(resolved_issues)):
+        resolved_issues[i] += resolved_issues[i-1]
+        resolved_issues[i] /= i+1
+        created_issues[i] += created_issues[i-1]
+        created_issues[i] /= i+1
+        diff_created += abs(created_issues[i] - created_issues[i-1])
+        diff_resolved += abs(resolved_issues[i] - resolved_issues[i-1])
+    diff_created /= len(resolved_issues)-1
+    diff_resolved /= len(resolved_issues)-1
+    print()
     data = {
         "$set":{
-            "issues": issues_list
+            "issues": issues_list,
+            "average_diff_created": diff_created,
+            "average_diff_resolved": diff_resolved,
+            "resolved_created_difference": abs(diff_created-diff_resolved)
         }
     }
+
     r = db.jira.update_one({"jira_key": jira_key}, data)
-    print()
-    return jsonify(issues_list)
+    data = {
+        "issues": issues_list,
+        "average_diff_created": diff_created,
+        "average_diff_resolved": diff_resolved,
+        "resolved_created_difference": abs(diff_created-diff_resolved)
+    }
+    return jsonify(data)
