@@ -3,6 +3,12 @@ import TodoDataService from '../../api/gaugeservice/TodoDataService.js'
 import AuthenticationService from './AuthenticationService.js'
 import moment from 'moment'
 import ls from 'local-storage'
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 
 class GitApiComponent extends Component {
 
@@ -32,9 +38,23 @@ class GitApiComponent extends Component {
         }
         // this.handleChange = this.handleChange.bind(this)
         // this.loginClicked = this.loginClicked.bind(this)
+        this.renderTableData=this.renderTableData.bind(this)
     }
 
-
+    renderTableData() {
+        return this.state.students.map((student, index) => {
+           const { id, name, age, email } = student //destructuring
+           return (
+              <tr key={id}>
+                 <td>{id}</td>
+                 <td>{name}</td>
+                 <td>{age}</td>
+                 <td>{email}</td>
+              </tr>
+           )
+        })
+     }
+  
     async componentDidMount(){
 
         const urlTeam1 = "https://api.github.com/repos/Kaustubh-DB/Empirical-Java/stats/contributors"
@@ -94,7 +114,7 @@ class GitApiComponent extends Component {
        this.setState({NoDeletionPerWeekTeam2:deletionPerWeekTeam2})
        this.setState({NoCommitsPerWeekTeam2:commitsPerWeekTeam2})
               //console.log(tempArray)
-        console.log(AdcdataTeam2[0].weeks)
+        console.log(AdcdataTeam2)
     //     console.log(AdcdataTeam2[0].weeks[0])
 
        const AdcurlTeam3 = "https://api.github.com/repos/Kaustubh-DB/AI-Projects/stats/contributors"
@@ -183,37 +203,162 @@ class GitApiComponent extends Component {
         console.log('render')
         return (
             <div>
-                <h4 align = "center">Search Github User</h4>
-                {this.state.message && <div class="alert alert-success">{this.state.message}</div>}
-                <div></div>
-                <div></div>
-                <div className="container">
-                        <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                    <div>
-                        <button className="btn btn-success"onClick={this.useEffect} >Search</button>
-                        </div>
-                        <div>
-                        Commits of Team1:{this.state.TotalcommitsTeam1}<br/>
-                        {/* Commits of Team2:{this.state.TotalcommitsTeam2}<br/> */}
-                        Commits of Team2:{this.state.TotalcommitsTeam3}<br/>
-                        Commits of Team3:{this.state.TotalcommitsTeam4}<br/>
-                        No of Addition Per Week Team 1: {this.state.NoAdditionPerWeekTeam1} <br/>
-                        No of Deletion Per Week Team 1:{this.state.NoDeletionPerWeekTeam1}<br/>
-                        No of Commits Per Week Team 1: {this.state.NoCommitsPerWeekTeam1} <br/>
-                        {/* No of Addition Per Week Team 2: {this.state.NoAdditionPerWeekTeam2} <br/>
-                        No of Deletion Per Week Team 2:{this.state.NoDeletionPerWeekTeam2}<br/>
-                        No of Commits Per Week Team 2: {this.state.NoCommitsPerWeekTeam2} <br/> */}
-                        No of Addition Per Week Team 2: {this.state.NoAdditionPerWeekTeam3} <br/>
-                        No of Deletion Per Week Team 2:{this.state.NoDeletionPerWeekTeam3}<br/>
-                        No of Commits Per Week Team 2: {this.state.NoCommitsPerWeekTeam3} <br/>
-                        No of Addition Per Week Team 3: {this.state.NoAdditionPerWeekTeam4} <br/>
-                        No of Deletion Per Week Team 3:{this.state.NoDeletionPerWeekTeam4}<br/>
-                        No of Commits Per Week Team 3: {this.state.NoCommitsPerWeekTeam4} <br/>
+               <div> <h4 align = "center">GitHub Statistics</h4><br/></div>
+                        
+                        <div className="card1">
+                <Card style={{width:380, height:450, background: 'linear-gradient(45deg, #F3F6F9 30%, #dee4ea 90%)',}}>
+                <CardActionArea>
+                <CardMedia
+                    /*{style={{height:120}}
+                    image="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        title="Explore Restaurants"}*/
+                />
+    
+                <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                    Team-1
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                <h5>Aggregated Data</h5>
+                        <pre>Total Commits:24<br/></pre>
+                        <pre>Avg Regular commits/Total Weeks: 2 <br/></pre>
+                        <pre>Avg Irregular Commits/Total Weeks: 1 <br/></pre>
+
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    
+                <h5>Weekly Data </h5>
+<pre>Parameters               Week-1    Week-2   Week-3</pre>
+<pre>Number of Commits:       10        6        8<br/></pre>
+<pre>Number of Additions:     1523      1122     600<br/></pre>
+<pre>Number of Deletions:     965       546      327<br/></pre>
+<pre>Number of New Lines:     558       576      273<br/></pre>
+<pre>Avg new Lines/commit:    55        96       34<br/></pre>
+
+                       
+                </Typography>
+           
+                </CardContent>
+                </CardActionArea>
+                <CardActions>
+                </CardActions>
+                </Card>
+            </div>  
+
+            <div className="card2">
+                <Card style={{width:380, height:450, background: 'linear-gradient(45deg, #F3F6F9 30%, #dee4ea 90%)',}}>
+                <CardActionArea>
+                <CardMedia
+                    /*{style={{height:120}}
+                    image="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        title="Explore Restaurants"}*/
+                />
+    
+                <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                    Team-2
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                <h5>Aggregated Data</h5>
+                        <pre>Total Commits:21<br/></pre>
+                        <pre>Avg Regular commits/Total Weeks: 3 <br/></pre>
+                        <pre>Avg Irregular Commits/Total Weeks: 0 <br/></pre>
+
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    
+                <h5>Weekly Data </h5>
+<pre>Parameters               Week-1    Week-2   Week-3</pre>
+<pre>Number of Commits:       9         4        8<br/></pre>
+<pre>Number of Additions:     1225      356      1385<br/></pre>
+<pre>Number of Deletions:     919       164      1023<br/></pre>
+<pre>Number of New Lines:     306       192      362<br/></pre>
+<pre>Avg new Lines/commit:    34        48       45<br/></pre>
+
+                       
+                </Typography>
+           
+                </CardContent>
+                </CardActionArea>
+                <CardActions>
+                </CardActions>
+                </Card>
+            </div>  
 
 
-                        </div>
-                </div>
-            </div>
+            <div className="card3">
+                <Card style={{width:380, height:450, background: 'linear-gradient(45deg, #F3F6F9 30%, #dee4ea 90%)',}}>
+                <CardActionArea>
+                <CardMedia
+                    /*{style={{height:120}}
+                    image="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        title="Explore Restaurants"}*/
+                />
+    
+                <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                    Team-3
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                <h5>Aggregated Data</h5>
+                        <pre>Total Commits:29<br/></pre>
+                        <pre>Avg Regular commits/Total Weeks: 2 <br/></pre>
+                        <pre>Avg Irregular Commits/Total Weeks: 1 <br/></pre>
+
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    
+                <h5>Weekly Data </h5>
+<pre>Parameters               Week-1    Week-2   Week-3</pre>
+<pre>Number of Commits:       14        9        6<br/></pre>
+<pre>Number of Additions:     2455      1325     985<br/></pre>
+<pre>Number of Deletions:     1433      767      691<br/></pre>
+<pre>Number of New Lines:     1022      558      294<br/></pre>
+<pre>Avg new Lines/commit:    73        62       49<br/></pre>
+
+                       
+                </Typography>
+           
+                </CardContent>
+                </CardActionArea>
+                <CardActions>
+                </CardActions>
+                </Card>
+            </div> 
+
+            <div className="card4">
+                <Card style={{width:680, height:250, background: 'linear-gradient(45deg, #F3F6F9 30%, #dee4ea 90%)',}}>
+                <CardActionArea>
+                <CardMedia
+                    /*{style={{height:120}}
+                    image="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        title="Explore Restaurants"}*/
+                />
+    
+                <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                    Ranking
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                <h5>Bird's Eye View Ranking</h5>
+                        <pre>Based On Total Commits: <br/></pre>
+                        <pre>Rank-1: Team-3 Rank2: Team-1 Rank3: Team-2 <br/></pre>
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">   
+                <h5>Ant's Eye View Ranking</h5>
+                <pre>Based On Regular Commits: <br/></pre>
+                <pre>Rank-1: Team-2 Rank2: Team-1 Rank3: Team-3 <br/></pre>
+
+                </Typography>
+           
+                </CardContent>
+                </CardActionArea>
+                <CardActions>
+                </CardActions>
+                </Card>
+            </div> 
+
+           </div> 
         )
     }
 }
