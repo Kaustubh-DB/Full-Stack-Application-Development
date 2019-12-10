@@ -43,38 +43,17 @@ class GitApiComponent extends Component {
 
         }
         this.callGitBackEndAPI = this.callGitBackEndAPI.bind(this);
-        // this.handleChange = this.handleChange.bind(this)
-        // this.loginClicked = this.loginClicked.bind(this)
-       // this.renderTableData=this.renderTableData.bind(this)
-    }
-
-    // renderTableData() {
-    //     return this.state.students.map((student, index) => {
-    //        const { id, name, age, email } = student //destructuring
-    //        return (
-    //           <tr key={id}>
-    //              <td>{id}</td>
-    //              <td>{name}</td>
-    //              <td>{age}</td>
-    //              <td>{email}</td>
-    //           </tr>
-    //        )
-    //     })
-    //  }
-
-     componentDidMount() {
-        console.log('componentDidMount')
-        this.getbackendGitData();
-        console.log(this.state.TotalcommitsTeam1)
     }
 
     callGitBackEndAPI() {
         console.log("IN API")
         let username = AuthenticationService.getLoggedInUserName()
-        
-        console.log("USERNAME",username)
-        console.log("SARRRAYVALUE",this.state.Team1Week1)
-        GitHubDataService.retrieveAllGitDataFromDB(this.state.Team1Week1)
+        let team1weekone = this.state.Team1Week1
+        let team1weektwo = this.state.Team1Week2
+        let team1weekthreee = this.state.Team1Week3
+        console.log("TEAM!WEEK2",team1weektwo)
+        console.log("TEAM!WEEK3",team1weekthreee)
+        GitHubDataService.retrieveAllGitDataFromDB(team1weekone,team1weektwo,team1weekthreee)
             .then(
                 response => {
                     console.log("RESSPOONNSEE"+response);
@@ -95,7 +74,7 @@ class GitApiComponent extends Component {
 
         for(i=0; i<dataTeam1[99].weeks.length; i++){//for github IU testing put 0 instead of 99
             if(i>=500){         
-                if(i ==500){        
+                if(i == 500){        
                     let temp= [];                    // Remove this if condition when testing for github iu
             console.log("***Inside",i,dataTeam1[99].weeks[i])   
             temp.push(dataTeam1[99].weeks[i].c)
@@ -103,7 +82,7 @@ class GitApiComponent extends Component {
             temp.push(dataTeam1[99].weeks[i].d)
             this.setState({Team1Week1:temp}) 
                 }
-                if(i ==504){        
+                if(i == 504){        
                     let temp= [];                    // Remove this if condition when testing for github iu
             console.log("***Inside",i,dataTeam1[99].weeks[i])   
             temp.push(dataTeam1[99].weeks[i].c)
@@ -111,7 +90,7 @@ class GitApiComponent extends Component {
             temp.push(dataTeam1[99].weeks[i].d)
             this.setState({Team1Week2:temp}) 
                 }
-                if(i ==509){        
+                if(i == 509){        
                     let temp= [];                    // Remove this if condition when testing for github iu
             console.log("***Inside",i,dataTeam1[99].weeks[i])   
             temp.push(dataTeam1[99].weeks[i].c)
