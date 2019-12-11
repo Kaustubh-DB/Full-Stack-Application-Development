@@ -31,5 +31,8 @@
 	<classpathentry kind="lib" path="C:/Users/kaust/Downloads/json-20180813.jar"/>
 	<classpathentry kind="lib" path="C:/Users/kaust/Downloads/json-simple-1.1.1.7.jar"/>
 	<classpathentry kind="lib" path="C:/Users/kaust/Downloads/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/kaust/Downloads/mongo-java-driver-3.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/kaust/Downloads/bson-3.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/kaust/Downloads/mongodb-driver-core-3.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
