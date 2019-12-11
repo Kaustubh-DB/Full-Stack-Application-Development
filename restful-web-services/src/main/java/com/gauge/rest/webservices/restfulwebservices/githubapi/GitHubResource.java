@@ -43,12 +43,23 @@ public class GitHubResource {
 	int totalCommitsTeam1 = 0;
 	int totalCommitsTeam2 = 0;
 	int totalCommitsTeam3 = 0;
-	DbHandling db = new DbHandling();
+	int averageTeam1Week1 = 0;
+	int averageTeam1Week2 = 0;
+	int averageTeam1Week3 =0;
+	
+	int averageTeam2Week1 = 0;
+	int averageTeam2Week2 = 0;
+	int averageTeam2Week3 =0;
+	
+	int averageTeam3Week1 = 0;
+	int averageTeam3Week2 = 0;
+	int averageTeam3Week3 =0;
 
 	@PostMapping("/gitapi/teamone/{team1week1}/{team1week2}/{t3}")
 	public void getAllgitTeam1Data(@PathVariable int[] team1week1, @PathVariable int[] team1week2,
 			@PathVariable int[] t3) throws IOException, ParseException {
 		MongoClient mongoClient = new MongoClient("localhost", 27017);
+		MongoDatabase database = mongoClient.getDatabase("GitHubData");
 		// database.createCollection("Team1");
 		team1week1data = team1week1;
 		team1week2data = team1week2;
@@ -72,14 +83,29 @@ public class GitHubResource {
 
 		FindIterable<Document> team1docs = collection.find();
 		MongoCursor<Document> cursor = team1docs.iterator();
+		ArrayList<Integer> average = new ArrayList<Integer>();
 		while (cursor.hasNext()) {
 			Document doc = cursor.next();
 
 			int commitCount = doc.getInteger("Commits");
 			totalCommitsTeam1 += commitCount;
+			int addition = doc.getInteger("Addition");
+			int deletion = doc.getInteger("Deletion");
+			int newLines = addition - deletion;
+			int temp = (newLines/commitCount);
+			average.add(temp);
+		}
+		
+		for(int i = 0; i<average.size();i++) {
+			averageTeam1Week1 = average.get(0);
+			averageTeam1Week2 = average.get(1);
+			averageTeam1Week3 = average.get(2);
 		}
 
 		System.out.println("TotalCommits Team 1: " + totalCommitsTeam1);
+		System.out.println("Average Lines Committed Team 1: "+ averageTeam1Week1);
+		System.out.println("Average Lines Committed Team 1: "+ averageTeam1Week2);
+		System.out.println("Average Lines Committed Team 1: "+ averageTeam1Week3);
 		mongoClient.close();
 	}
 
@@ -112,15 +138,31 @@ public class GitHubResource {
 		System.out.println("NewHiTeam2");
 		FindIterable<Document> team2docs = collection.find();
 		MongoCursor<Document> cursor = team2docs.iterator();
+		ArrayList<Integer> average = new ArrayList<Integer>();
 		// int totalCommits = 0;
 		while (cursor.hasNext()) {
 			Document doc = cursor.next();
 
 			int commitCount = doc.getInteger("Commits");
+			int addition = doc.getInteger("Addition");
+			int deletion = doc.getInteger("Deletion");
+			int newLines = addition - deletion;
+			int temp = (newLines/commitCount);
+			average.add(temp);
 			totalCommitsTeam2 += commitCount;
 		}
+		
+		for(int i = 0; i<average.size();i++) {
+			averageTeam2Week1 = average.get(0);
+			averageTeam2Week2 = average.get(1);
+			averageTeam2Week3 = average.get(2);
+		}
+		
 
 		System.out.println("TotalCommits Team 2: " + totalCommitsTeam2);
+		System.out.println("Average Lines Committed Team 2: "+ averageTeam2Week1);
+		System.out.println("Average Lines Committed Team 2: "+ averageTeam2Week2);
+		System.out.println("Average Lines Committed Team 2: "+ averageTeam2Week3);
 		mongoClient.close();
 	}
 
@@ -153,14 +195,33 @@ public class GitHubResource {
 		FindIterable<Document> team3docs = collection.find();
 		MongoCursor<Document> cursor = team3docs.iterator();
 		// int totalCommits = 0;
+		ArrayList<Integer> average = new ArrayList<Integer>();
+		
 		while (cursor.hasNext()) {
 			Document doc = cursor.next();
 
 			int commitCount = doc.getInteger("Commits");
+			int addition = doc.getInteger("Addition");
+			int deletion = doc.getInteger("Deletion");
+			int newLines = addition - deletion;
+			int temp = (newLines/commitCount);
+			average.add(temp);
 			totalCommitsTeam3 += commitCount;
+			
 		}
+		
+		for(int i = 0; i<average.size();i++) {
+			averageTeam3Week1 = average.get(0);
+			averageTeam3Week2 = average.get(1);
+			averageTeam3Week3 = average.get(2);
+		}
+		
 
-		System.out.println("TotalCommits Team 3: " + totalCommitsTeam3);
+		System.out.println("TotalCommits Team 3: " + totalCommitsTeam3);		
+		System.out.println("Average Lines Committed Team 3: "+ averageTeam3Week1);
+		System.out.println("Average Lines Committed Team 3: "+ averageTeam3Week2);
+		System.out.println("Average Lines Committed Team 3: "+ averageTeam3Week3);
+		
 		mongoClient.close();
 	}
 }
