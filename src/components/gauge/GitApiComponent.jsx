@@ -18,26 +18,15 @@ class GitApiComponent extends Component {
 
         this.state = {
 
-            TotalcommitsTeam1: 14,
-            TotalcommitsTeam2: 0,
-            TotalcommitsTeam3: 0,
-            TotalcommitsTeam4: 0,
             Team1Week1:[],
             Team1Week2:[],
             Team1Week3:[],
-            NoAdditionPerWeekTeam1: [],
-            NoDeletionPerWeekTeam1:[10,0,0,0],
-            NoCommitsPerWeekTeam1:[2,3,4,5],
-            NoAdditionPerWeekTeam2: [],
-            NoDeletionPerWeekTeam2:[],
-            NoCommitsPerWeekTeam2:[],
-            NoAdditionPerWeekTeam3: [60,84,92,0],
-            NoDeletionPerWeekTeam3:[],
-            NoCommitsPerWeekTeam3:[],
-            NoAdditionPerWeekTeam4: [],
-            NoDeletionPerWeekTeam4:[],
-            NoCommitsPerWeekTeam4:[],
-            todos:[]
+            Team2Week1:[],
+            Team2Week2:[],
+            Team2Week3:[],
+            Team3Week1:[],
+            Team3Week2:[],
+            Team3Week3:[]
 
 
 
@@ -63,16 +52,32 @@ class GitApiComponent extends Component {
             .catch(err =>{
                 console.log("Error" + err);
             });
-            // GitHubDataService.postTeam2Data(team1weekone,team1weektwo,team1weekthreee)
-            // .then(
-            //     response => {
-            //         console.log("RESSPOONNSEE"+response);
-            //         //this.setState({ todos: response.data })
-            //     }
-            // )
-            // .catch(err =>{
-            //     console.log("Error" + err);
-            // });
+            let team2weekone = this.state.Team2Week1
+            let team2weektwo = this.state.Team2Week2
+            let team2weekthreee = this.state.Team2Week3
+        GitHubDataService.postTeam2Data(team2weekone,team2weektwo,team2weekthreee)
+            .then(
+                response => {
+                    console.log("RESSPOONNSEE22"+response);
+                    //this.setState({ todos: response.data })
+                }
+            )
+            .catch(err =>{
+                console.log("Error" + err);
+            });
+            let team3weekone = this.state.Team3Week1
+            let team3weektwo = this.state.Team3Week2
+            let team3weekthreee = this.state.Team3Week3
+        GitHubDataService.postTeam3Data(team3weekone,team3weektwo,team3weekthreee)
+            .then(
+                response => {
+                    console.log("RESSPOONNSEE22"+response);
+                    //this.setState({ todos: response.data })
+                }
+            )
+            .catch(err =>{
+                console.log("Error" + err);
+            });
     }
 
   
@@ -81,6 +86,7 @@ class GitApiComponent extends Component {
         const urlTeam1 = "https://api.github.com/repos/fabpot/symfony/stats/contributors"
         const responseTeam1 = await fetch(urlTeam1)
         const dataTeam1 = await responseTeam1.json();
+        console.log("****",dataTeam1[99].weeks)   
         var i=0
         for(i=0; i<dataTeam1[99].weeks.length; i++){//for github IU testing put 0 instead of 99
             if(i>=500){         
@@ -111,6 +117,73 @@ class GitApiComponent extends Component {
             }
         }
 
+        const urlTeam2 = "https://api.github.com/repos/fabpot/symfony/stats/contributors"
+        const responseTeam2 = await fetch(urlTeam2)
+        const dataTeam2 = await responseTeam2.json();
+        var i=0
+        for(i=0; i<dataTeam2[99].weeks.length; i++){//for github IU testing put 0 instead of 99
+            if(i>=400){         
+                if(i == 417){        
+                    let temp= [];                    // Remove this if condition when testing for github iu
+            console.log("***Inside",i,dataTeam2[99].weeks[i])   
+            temp.push(dataTeam2[99].weeks[i].c)
+            temp.push(dataTeam2[99].weeks[i].a)
+            temp.push(dataTeam2[99].weeks[i].d)
+            this.setState({Team2Week1:temp}) 
+                }
+                if(i == 435){        
+                    let temp= [];                    // Remove this if condition when testing for github iu
+            console.log("***Inside",i,dataTeam1[99].weeks[i])   
+            temp.push(dataTeam2[99].weeks[i].c)
+            temp.push(dataTeam2[99].weeks[i].a)
+            temp.push(dataTeam2[99].weeks[i].d)
+            this.setState({Team2Week2:temp}) 
+                }
+                if(i == 499){        
+                    let temp= [];                    // Remove this if condition when testing for github iu
+            console.log("***Inside",i,dataTeam1[99].weeks[i])   
+            temp.push(dataTeam2[99].weeks[i].c)
+            temp.push(dataTeam2[99].weeks[i].a)
+            temp.push(dataTeam2[99].weeks[i].d)
+            this.setState({Team2Week3:temp}) 
+                }
+            }
+        }
+
+        const urlTeam3 = "https://api.github.com/repos/fabpot/symfony/stats/contributors"
+        const responseTeam3 = await fetch(urlTeam3)
+        const dataTeam3 = await responseTeam3.json();
+        var i=0
+        for(i=0; i<dataTeam3[99].weeks.length; i++){//for github IU testing put 0 instead of 99
+            if(i>=200){         
+                if(i == 216){        
+                    let temp= [];                    // Remove this if condition when testing for github iu
+            console.log("***Inside",i,dataTeam3[99].weeks[i])   
+            temp.push(dataTeam3[99].weeks[i].c)
+            temp.push(dataTeam3[99].weeks[i].a)
+            temp.push(dataTeam3[99].weeks[i].d)
+            this.setState({Team3Week1:temp}) 
+                }
+                if(i == 217){        
+                    let temp= [];                    // Remove this if condition when testing for github iu
+            console.log("***Inside",i,dataTeam3[99].weeks[i])   
+            temp.push(dataTeam3[99].weeks[i].c)
+            temp.push(dataTeam3[99].weeks[i].a)
+            temp.push(dataTeam3[99].weeks[i].d)
+            this.setState({Team3Week2:temp}) 
+                }
+                if(i == 260){        
+                    let temp= [];                    // Remove this if condition when testing for github iu
+            console.log("***Inside",i,dataTeam3[99].weeks[i])   
+            temp.push(dataTeam3[99].weeks[i].c)
+            temp.push(dataTeam3[99].weeks[i].a)
+            temp.push(dataTeam3[99].weeks[i].d)
+            this.setState({Team3Week3:temp}) 
+                }
+            }
+        }
+
+
     }
     
 
@@ -125,6 +198,10 @@ class GitApiComponent extends Component {
             <div> Team1Week1 : {this.state.Team1Week1}</div>
             <div> Team1Week2 : {this.state.Team1Week2}</div>
             <div> Team1Week3 : {this.state.Team1Week3}</div>
+
+            <div> Team2Week1 : {this.state.Team2Week1}</div>
+            <div> Team2Week2 : {this.state.Team2Week2}</div>
+            <div> Team2Week3 : {this.state.Team2Week3}</div>
             
 
            </div> 
