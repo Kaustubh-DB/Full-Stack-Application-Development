@@ -53,7 +53,7 @@ class GitApiComponent extends Component {
         let team1weekthreee = this.state.Team1Week3
         console.log("TEAM!WEEK2",team1weektwo)
         console.log("TEAM!WEEK3",team1weekthreee)
-        GitHubDataService.retrieveAllGitDataFromDB(team1weekone,team1weektwo,team1weekthreee)
+        GitHubDataService.postTeam1Data(team1weekone,team1weektwo,team1weekthreee)
             .then(
                 response => {
                     console.log("RESSPOONNSEE"+response);
@@ -63,6 +63,16 @@ class GitApiComponent extends Component {
             .catch(err =>{
                 console.log("Error" + err);
             });
+            // GitHubDataService.postTeam2Data(team1weekone,team1weektwo,team1weekthreee)
+            // .then(
+            //     response => {
+            //         console.log("RESSPOONNSEE"+response);
+            //         //this.setState({ todos: response.data })
+            //     }
+            // )
+            // .catch(err =>{
+            //     console.log("Error" + err);
+            // });
     }
 
   
@@ -71,7 +81,7 @@ class GitApiComponent extends Component {
         const urlTeam1 = "https://api.github.com/repos/fabpot/symfony/stats/contributors"
         const responseTeam1 = await fetch(urlTeam1)
         const dataTeam1 = await responseTeam1.json();
-
+        var i=0
         for(i=0; i<dataTeam1[99].weeks.length; i++){//for github IU testing put 0 instead of 99
             if(i>=500){         
                 if(i == 500){        
@@ -100,96 +110,6 @@ class GitApiComponent extends Component {
                 }
             }
         }
-
-        const urlTeam2 = "https://api.github.com/repos/Kaustubh-DB/Object-Oriented-Software-Development/stats/contributors"
-        const responseTeam2 = await fetch(urlTeam2)
-        const dataTeam2 = await responseTeam2.json();
-        this.setState({TotalcommitsTeam2:dataTeam2[0].total})
-
-        const urlTeam3 = "https://api.github.com/repos/Kaustubh-DB/AI-Projects/stats/contributors"
-        const responseTeam3 = await fetch(urlTeam3)
-        const dataTeam3 = await responseTeam3.json();
-        this.setState({TotalcommitsTeam3:dataTeam3[0].total})
-
-        const urlTeam4 = "https://api.github.com/repos/Kaustubh-DB/Assigment1_OOSD/stats/contributors"
-        const responseTeam4 = await fetch(urlTeam4)
-        const dataTeam4 = await responseTeam4.json();
-        this.setState({TotalcommitsTeam4:dataTeam4[0].total})
-
-        const AdcurlTeam1 = "https://api.github.com/repos/Kaustubh-DB/Empirical-Java/stats/contributors"
-        const AdcresponseTeam1 = await fetch(AdcurlTeam1)
-        const AdcdataTeam1 = await AdcresponseTeam1.json();
-        //console.log("EMPIRICAL",AdcdataTeam1)
-       // this.setState({weeklyCountTeam1:dataTeam[0].weeks})
-       let additionPerWeekTeam1 =[]
-       let deletionPerWeekTeam1 = []
-       let commitsPerWeekTeam1 = []//*
-
-       for(var i=0; i<AdcdataTeam1[0].weeks.length;i++){
-        additionPerWeekTeam1.push(AdcdataTeam1[0].weeks[i].a)
-        // deletionPerWeekTeam1.push(AdcdataTeam1[0].weeks[i].d)
-        //commitsPerWeekTeam1.push(AdcdataTeam1[0].weeks[i].c)    
-       }
-       this.setState({NoAdditionPerWeekTeam1:additionPerWeekTeam1})
-    //    this.setState({NoDeletionPerWeekTeam1:deletionPerWeekTeam1})
-      // this.setState({NoCommitsPerWeekTeam1:commitsPerWeekTeam1})
-       //console.log(tempArray)
-    //    console.log(dataTeam[0].weeks)
-    //     console.log(dataTeam[0].weeks[0])
-        const AdcurlTeam2 = "https://api.github.com/repos/Kaustubh-DB/Object-Oriented-Software-Development/stats/contributors"
-        const AdcresponseTeam2 = await fetch(AdcurlTeam2)
-        const AdcdataTeam2 = await AdcresponseTeam2.json();
-       // this.setState({weeklyCountTeam1:dataTeam[0].weeks})
-       let additionPerWeekTeam2 =[]
-       let deletionPerWeekTeam2 = []
-       let commitsPerWeekTeam2= []
-
-       for(var i=0; i<AdcdataTeam2[0].weeks.length;i++){
-        additionPerWeekTeam2.push(AdcdataTeam2[0].weeks[i].a)
-        deletionPerWeekTeam2.push(AdcdataTeam2[0].weeks[i].d)
-        commitsPerWeekTeam2.push(AdcdataTeam2[0].weeks[i].c)    
-       }
-       this.setState({NoAdditionPerWeekTeam2:additionPerWeekTeam2})
-       this.setState({NoDeletionPerWeekTeam2:deletionPerWeekTeam2})
-       this.setState({NoCommitsPerWeekTeam2:commitsPerWeekTeam2})
-              //console.log(tempArray)
-       // console.log(AdcdataTeam2)
-    //     console.log(AdcdataTeam2[0].weeks[0])
-
-       const AdcurlTeam3 = "https://api.github.com/repos/Kaustubh-DB/AI-Projects/stats/contributors"
-        const AdcresponseTeam3 = await fetch(AdcurlTeam3)
-        const AdcdataTeam3 = await AdcresponseTeam3.json();
-       // this.setState({weeklyCountTeam1:dataTeam[0].weeks})
-       let additionPerWeekTeam3 =[]
-       let deletionPerWeekTeam3 = []
-       let commitsPerWeekTeam3= []
-
-       for(var i=0; i<AdcdataTeam3[0].weeks.length;i++){
-        additionPerWeekTeam3.push(AdcdataTeam3[0].weeks[i].a)
-        deletionPerWeekTeam3.push(AdcdataTeam3[0].weeks[i].d)
-        commitsPerWeekTeam3.push(AdcdataTeam3[0].weeks[i].c)    
-       }
-    //    this.setState({NoAdditionPerWeekTeam3:additionPerWeekTeam3})
-       this.setState({NoDeletionPerWeekTeam3:deletionPerWeekTeam3})
-       this.setState({NoCommitsPerWeekTeam3:commitsPerWeekTeam3})
-       console.log(AdcdataTeam3[0].weeks)
-
-       const AdcurlTeam4 = "https://api.github.com/repos/Kaustubh-DB/Assigment1_OOSD/stats/contributors"
-        const AdcresponseTeam4 = await fetch(AdcurlTeam4)
-        const AdcdataTeam4 = await AdcresponseTeam4.json();
-       // this.setState({weeklyCountTeam1:dataTeam[0].weeks})
-       let additionPerWeekTeam4 =[]
-       let deletionPerWeekTeam4 = []
-       let commitsPerWeekTeam4= []
-
-       for(var i=0; i<AdcdataTeam4[0].weeks.length;i++){
-        additionPerWeekTeam4.push(AdcdataTeam4[0].weeks[i].a)
-        deletionPerWeekTeam4.push(AdcdataTeam4[0].weeks[i].d)
-        commitsPerWeekTeam4.push(AdcdataTeam4[0].weeks[i].c)    
-       }
-       this.setState({NoAdditionPerWeekTeam4:additionPerWeekTeam4})
-       this.setState({NoDeletionPerWeekTeam4:deletionPerWeekTeam4})
-       this.setState({NoCommitsPerWeekTeam4:commitsPerWeekTeam4})
 
     }
     
