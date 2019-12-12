@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import HelloWorldService from '../../api/gaugeservice/HelloWorldService.js'
+import Files from "react-files";
+
 
 class WelcomeComponent extends Component {
 
@@ -8,8 +10,17 @@ class WelcomeComponent extends Component {
         super(props)
         this.retrieveWelcomeMessage = this.retrieveWelcomeMessage.bind(this)
         this.state = {
-            welcomeMessage: ''
+            welcomeMessage: '',
+            jsonfile:{}
         }
+
+        this.fileReader = new FileReader();
+        this.fileReader.onload = event => {
+        this.setState({ jsonFile: JSON.parse(event.target.result) }, () => {
+        console.log(this.state.jsonFile);
+
+    });
+};
         this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
         this.handleError = this.handleError.bind(this)
     }
@@ -25,6 +36,25 @@ class WelcomeComponent extends Component {
                 <div className="container">
                     {this.state.welcomeMessage}
                 </div>
+
+                <div>
+            <Files
+          className="files-dropzone"
+          onChange={file => {
+            this.fileReader.readAsText(file[0]);
+          }}
+          onError={err => console.log(err)}
+          accepts={[".json"]}
+          multiple
+          maxFiles={3}
+          maxFileSize={10000000}
+          minFileSize={0}
+          clickable
+        >
+          Drop files here or click to upload
+        </Files>
+ 
+            </div>
 
             </>
         )

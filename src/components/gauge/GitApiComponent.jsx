@@ -10,6 +10,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import AuthenticationService from './AuthenticationService.js'
 import axios from 'axios'
+import { GITHUB_API_URL} from '../../Constants'
+import Files from "react-files";
 
 class GitApiComponent extends Component {
 
@@ -26,26 +28,34 @@ class GitApiComponent extends Component {
             Team2Week3:[],
             Team3Week1:[],
             Team3Week2:[],
-            Team3Week3:[]
-
-
-
+            Team3Week3:[],
+            selectedFile: null,
+            jsonFile: {}
         }
-        this.callGitBackEndAPI = this.callGitBackEndAPI.bind(this);
     }
 
-    callGitBackEndAPI() {
+    async callGitBackEndAPI() {
         console.log("IN API")
+        console.log("********JSON",this.state.jsonFile)
+        this.fileReader = new FileReader();
+        this.fileReader.onload = event => {
+        this.setState({ jsonFile: JSON.parse(event.target.result) }, () => {
+        console.log(this.state.jsonFile);
+        this.callGitBackEndAPI = this.callGitBackEndAPI.bind(this);
+    });
+};
         let username = AuthenticationService.getLoggedInUserName()
         let team1weekone = this.state.Team1Week1
         let team1weektwo = this.state.Team1Week2
         let team1weekthreee = this.state.Team1Week3
         console.log("TEAM!WEEK2",team1weektwo)
         console.log("TEAM!WEEK3",team1weekthreee)
-        GitHubDataService.postTeam1Data(team1weekone,team1weektwo,team1weekthreee)
+
+        // Make first two requests
+        const firstRequest = GitHubDataService.postTeam1Data(team1weekone,team1weektwo,team1weekthreee)
             .then(
                 response => {
-                    console.log("RESSPOONNSEE"+response);
+                    console.log("Average New Lines Per commit Team 1: "+response.data);
                     //this.setState({ todos: response.data })
                 }
             )
@@ -55,10 +65,10 @@ class GitApiComponent extends Component {
             let team2weekone = this.state.Team2Week1
             let team2weektwo = this.state.Team2Week2
             let team2weekthreee = this.state.Team2Week3
-        GitHubDataService.postTeam2Data(team2weekone,team2weektwo,team2weekthreee)
+        const secondRequest = GitHubDataService.postTeam2Data(team2weekone,team2weektwo,team2weekthreee)
             .then(
                 response => {
-                    console.log("RESSPOONNSEE22"+response);
+                    console.log("Average New Lines Per commit Team 2: "+response.data);
                     //this.setState({ todos: response.data })
                 }
             )
@@ -68,21 +78,54 @@ class GitApiComponent extends Component {
             let team3weekone = this.state.Team3Week1
             let team3weektwo = this.state.Team3Week2
             let team3weekthreee = this.state.Team3Week3
-        GitHubDataService.postTeam3Data(team3weekone,team3weektwo,team3weekthreee)
+        const thirdRequest  = GitHubDataService.postTeam3Data(team3weekone,team3weektwo,team3weekthreee)
             .then(
                 response => {
-                    console.log("RESSPOONNSEE22"+response);
+                    console.log("Average New Lines Per commit Team 3: "+response.data);
                     //this.setState({ todos: response.data })
                 }
             )
             .catch(err =>{
                 console.log("Error" + err);
             });
+        const fourthRequest =  GitHubDataService.Ranking()
+            .then(
+                response => {
+                    console.log("Ranking based on Total Commits for all Teams: "+response.data);
+                    //this.setState({ todos: response.data })
+                }
+            )
+            .catch(err =>{
+                console.log("Error" + err); 
+            });
+
+            const fifthRequest =  GitHubDataService.calculateRegularRanking()
+            .then(
+                response => {
+                    console.log("RegularRanking: "+response.data);
+                    //this.setState({ todos: response.data })
+                }
+            )
+            .catch(err =>{
+                console.log("Error" + err);
+            });
+
+
+            Promise.all([firstRequest, secondRequest, thirdRequest])
+            .then(() => {
+                return fourthRequest
+            })
+
+            
+            Promise.all([fourthRequest])
+            .then(() => {
+                return fifthRequest
+            })
     }
 
   
     async componentDidMount(){
-
+        
         const urlTeam1 = "https://api.github.com/repos/fabpot/symfony/stats/contributors"
         const responseTeam1 = await fetch(urlTeam1)
         const dataTeam1 = await responseTeam1.json();
@@ -183,9 +226,28 @@ class GitApiComponent extends Component {
             }
         }
 
+        const urlTeam4 = "https://api.github.com/repos/fabpot/symfony/stats/commit_activity"
+        const responseTeam4 = await fetch(urlTeam4)
+        const dataTeam4 = await responseTeam4.json();
 
+        console.log("DAILY COUNT"+dataTeam4[1])
+
+        this.callGitBackEndAPI();
+    }
+
+    onChangeHandler=event=>{
+
+        console.log(event.target.files[0])
+        this.setState({
+            selectedFile: event.target.files[0],
+            loaded: 0,
+          })
+    
     }
     
+   async processJsonfile(){
+
+    }
 
     render() {
         console.log('render')
@@ -202,8 +264,25 @@ class GitApiComponent extends Component {
             <div> Team2Week1 : {this.state.Team2Week1}</div>
             <div> Team2Week2 : {this.state.Team2Week2}</div>
             <div> Team2Week3 : {this.state.Team2Week3}</div>
-            
 
+            <div>
+            <Files
+          className="files-dropzone"
+          onChange={file => {
+            this.fileReader.readAsText(file[0]);
+          }}
+          onError={err => console.log(err)}
+          accepts={[".json"]}
+          multiple
+          maxFiles={3}
+          maxFileSize={10000000}
+          minFileSize={0}
+          clickable
+        >
+          Drop files here or click to upload
+        </Files>
+ 
+            </div>
            </div> 
         )
     }
