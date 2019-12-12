@@ -16,6 +16,16 @@ class GitHubDataService {
         return axios.post(`${GITHUB_API_URL}/teamthree/${team3week1}/${team3week2}/${team3week3}`);
     }
 
+    Ranking() {
+        return axios.post(`${GITHUB_API_URL}/ranking`);
+    }
+
+    calculateRegularRanking() {
+        return axios.post(`${GITHUB_API_URL}/regularRanking`);
+    }
+
+
+
 }
 
 export default new GitHubDataService()

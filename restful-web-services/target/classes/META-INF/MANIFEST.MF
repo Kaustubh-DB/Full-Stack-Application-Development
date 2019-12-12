@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Implementation-Title: restful-web-services
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: kaust
-Implementation-Vendor-Id: com.in28minutes.rest.webservices
+Implementation-Vendor-Id: com.rest.webservices
 Build-Jdk: 1.8.0_221
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/restful-web-services
