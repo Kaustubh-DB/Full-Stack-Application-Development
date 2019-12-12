@@ -12,9 +12,9 @@ jira_url = "http://149.161.132.18:8080"
 
 jira = Blueprint('jira', __name__)
 
-connection = 'mongodb://heroku_hpkv6n2z:o7srfm2i8egtbu0td9vtgk6jp0@ds349618.mlab.com:49618/heroku_hpkv6n2z?retryWrites=false'
+connection = 'mongodb://heroku_kx6px18d:v28mkan5jd6dt86c9oqn2n9c8p@ds353378.mlab.com:53378/heroku_kx6px18d?retryWrites=false'
 client = MongoClient(connection)
-db = client['heroku_hpkv6n2z']
+db = client['heroku_kx6px18d']
 
 
 
