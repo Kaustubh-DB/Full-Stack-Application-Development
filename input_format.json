@@ -7,8 +7,19 @@
     "start": "05/12/2019",
     "end": "16/12/2019",
     "teams": [
-        {
+        {       
+            "team_name": "Team 1",
             "jira_key": "PROJ1",
+            "jira_authorization":"",
+            "github_username": "<Insert Here!>",
+            "github_repository_name":"",
+            "bamboo_key": "<GAUG-PROJ>",
+            "bamboo_plan_key":"",
+            "sonarqube_key": "<Sonarqube Key!>"
+        },
+        {   
+            "team_name": "Team 2",
+            "jira_key": "PROJ2",
             "jira_authorization":"",
             "github_username": "<Insert Here!>",
             "github_repository_name":"",
