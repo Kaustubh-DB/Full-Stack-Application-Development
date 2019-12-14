@@ -64,26 +64,45 @@ def get_github_usage():
         additions = []
         deletions = []
         commits = []
+        average_new_lines = []
         count = 1
+        total_commits = 0
         for i in compiled_data.keys():
             week_list.append(count)
             obj_w_c_d = compiled_data[i]
             additions.append(obj_w_c_d['a'])
             deletions.append(obj_w_c_d['d'])
             commits.append(obj_w_c_d['c'])
+            average_new_line = abs(additions[-1]-deletions[-1])/commits[-1]
+            average_new_lines.append(average_new_line)
+            total_commits += commits[-1]
+        regular_commit_count = 0
+        threshold = 100
+        for i in average_new_lines:
+            if i <= threshold:
+                regular_commit_count += 1
         data_update = {
             "$set":{
+                "team_name": team_name,
                 "additions": additions,
                 "deletions": deletions,
-                "commits": commits
+                "commits": commits,
+                "average_new_lines": average_new_lines,
+                "regular_commit_count": regular_commit_count,
+                "total_commits": total_commits
             }
         }
         team_all_data = {
+            "team_name": team_name,
             "additions": additions,
             "deletions": deletions,
-            "commits": commits
+            "commits": commits,
+            "average_new_lines": average_new_lines,
+            "regular_commit_count": regular_commit_count,
+            "total_commits": total_commits
         }
         r = db.github.update_one({"_id": ObjectId(github_id)}, data_update)
         all_data.append(team_all_data)
+        all_data = sorted(all_data, key = lambda x: (-x['regular_commit_count'], -x['total_commits']))
 
     return jsonify(all_data)
