@@ -62,7 +62,7 @@ def create_assignment():
 def get_assignment():
     results = []
 
-    for field in db.testing.find():
+    for field in db.assignments.find():
         field['_id'] = str(field['_id'])
         results.append(field)
     return jsonify(results)
