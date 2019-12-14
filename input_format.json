@@ -1,18 +1,18 @@
 {
-    "jira_url":"http://149.160.237.92:8080",
-    "github_url": "https://github.iu.edu/",
+    "jira_url":"http://localhost:8080",
+    "github_url": "https://api.github.com/repos/",
     "bamboo_url": "http://149.161.129.142:8085",
     "sonarqube_url": "http:149.160.142.250:9000",
     "assignment_name":"Assignment 1 - Game Maker",
-    "start": "05/12/2019",
-    "end": "16/12/2019",
+    "start": "12/05/2019",
+    "end": "12/16/2019",
     "teams": [
         {       
             "team_name": "Team 1",
             "jira_key": "PROJ1",
             "jira_authorization":"",
-            "github_username": "<Insert Here!>",
-            "github_repository_name":"",
+            "github_username": "fabpot",
+            "github_repository_name":"symfony",
             "bamboo_key": "<GAUG-PROJ>",
             "bamboo_plan_key":"",
             "sonarqube_key": "<Sonarqube Key!>"
@@ -21,8 +21,8 @@
             "team_name": "Team 2",
             "jira_key": "PROJ2",
             "jira_authorization":"",
-            "github_username": "<Insert Here!>",
-            "github_repository_name":"",
+            "github_username": "raj-nandu",
+            "github_repository_name":"Food-Delivery-System",
             "bamboo_key": "<GAUG-PROJ>",
             "bamboo_plan_key":"",
             "sonarqube_key": "<Sonarqube Key!>"

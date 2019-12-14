@@ -4,6 +4,10 @@ from flask_pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson import json_util
 import json
+from datetime import date, timedelta
+import requests
+import time
+
 
 jira = Blueprint('assignment', __name__)
 connection = 'mongodb://heroku_kx6px18d:v28mkan5jd6dt86c9oqn2n9c8p@ds353378.mlab.com:53378/heroku_kx6px18d?retryWrites=false'
@@ -50,6 +54,9 @@ def create_assignment():
     print(data)
     db.assignments.insert(data)
     return "Hi"
+
+
+
 
 @jira.route("/assignments", methods = ['GET'])
 def get_assignment():
