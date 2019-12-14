@@ -4,6 +4,8 @@ from flask_pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson import json_util
 import json
+import requests
+
 
 jira = Blueprint('bamboo', __name__)
 connection = 'mongodb://heroku_kx6px18d:v28mkan5jd6dt86c9oqn2n9c8p@ds353378.mlab.com:53378/heroku_kx6px18d?retryWrites=false'
@@ -27,4 +29,38 @@ def build_success_rate():
         }
         bamboo_data = db.bamboo.find_one(bamboo_query)
         bamboo_key = bamboo_data['bamboo_key']
-        url = bamboo_url + '/rest/api/latest/result/'
+        url = bamboo_url + '/rest/api/latest/result/' + bamboo_key + '.json'
+        response = requests.get(url)
+        response = json.loads(response.text)
+        
+        build_number = response['results']['result'][0]['buildNumber']
+        build_key = response['results']['result'][0]['buildResultKey'].split('-')
+        print(build_key)
+        print(build_number)
+        success = 0
+
+        while build_number > 0: 
+            temp = build_key[0] + '-' + build_key[1] + '-' + str(build_number) + '.json'
+            print(temp)
+            url = bamboo_url + '/rest/api/latest/result/' + temp 
+            result = requests.get(url)
+            build_number -= 1
+            
+            result = json.loads(result.text)
+            if result['buildState'] == "Successful":
+                success += 1
+
+        data_update = {
+            "$set":{
+                "success": success,
+                "total": response['results']['result'][0]['buildNumber']
+            }
+        }
+        data = {
+            "success": success,
+            "total": response['results']['result'][0]['buildNumber']
+        }
+
+        res = db.bamboo.update_one({"_id": ObjectId(bamboo_id)}, data_update)
+        all_data.append(data)
+    return jsonify(all_data)
