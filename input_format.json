@@ -1,6 +1,6 @@
 {
     "jira_url":"http://localhost:8080",
-    "github_url": "https://api.github.com/repos/",
+    "github_url": "https://api.github.com/repos",
     "bamboo_url": "http://149.161.129.142:8085",
     "sonarqube_url": "http:149.160.142.250:9000",
     "assignment_name":"Assignment 1 - Game Maker",

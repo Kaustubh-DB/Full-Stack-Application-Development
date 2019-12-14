@@ -214,7 +214,7 @@ def get_jira_usage():
     data = request.get_json()
     assignment_id = data["assignment_id"]
     data = db.assignments.find_one({"_id": ObjectId(assignment_id)})
-    print(data)
+    # print(data)
     start_date = data["start"].split("/")
     end_date = data["end"].split("/")
     jira_url = data['jira_url']
@@ -243,14 +243,43 @@ def get_jira_usage():
         response = json.loads(response.text)
         issues = response['issues']
         issues_list = []
+        
         for i in issues:
+            # d = {}
+            # d["created_date"] = i["fields"]["created"].split("T")[0]
+
+            # d["resolution_date"] = i["fields"]["resolutiondate"].split("T")[0] if i["fields"]["resolutiondate"] else "null"
+            
+            # d["assignee_name"] = i["fields"]["assignee"]["name"] if i["fields"]["assignee"] else "null"
+            # # create_data = date()
+            # issues_list.append(d)
             d = {}
             d["created_date"] = i["fields"]["created"].split("T")[0]
 
             d["resolution_date"] = i["fields"]["resolutiondate"].split("T")[0] if i["fields"]["resolutiondate"] else "null"
-            print(i)
+            
             d["assignee_name"] = i["fields"]["assignee"]["name"] if i["fields"]["assignee"] else "null"
-            issues_list.append(d)
+
+            create_date = d['created_date'].split("-")
+            
+            create_date = date(int(create_date[0]), int(create_date[1]), int(create_date[2]))
+            print("start date")
+            print(sdate)
+            print("created_date")
+            print(create_date)
+            print("End data")
+            print(edate)
+            if create_date >= sdate and create_date <= edate:
+                print("inside")
+                # if d['resolution_date'] != "null":
+                #     print("Inside second if")
+                #     resolution_date = d['resolution_date'].split("-")
+                #     resolution_date = date(int(resolution_date[0]), int(resolution_date[1]), int(resolution_date[2]))
+                    
+                #     print(resolution_date)
+                #     if resolution_date >= sdate and resolution_date<=edate:
+                        
+                issues_list.append(d)
 
 
 
@@ -269,10 +298,10 @@ def get_jira_usage():
             created_issues[issue["created_date"]] += 1
             if issue['resolution_date'] != "null":
                 resolved_issues[issue["created_date"]] += 1
-        print("created")
-        print(created_issues)
-        print("resolved")
-        print(resolved_issues)
+        # print("created")
+        # print(created_issues)
+        # print("resolved")
+        # print(resolved_issues)
         created_issues = list(created_issues.values())
         resolved_issues = list(resolved_issues.values())
 

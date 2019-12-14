@@ -44,7 +44,7 @@ def get_github_usage():
         github_data = db.github.find_one(github_query)
         github_username = github_data['github_username']
         github_repository_name = github_data['github_repository_name']
-        git_api_url = github_url + github_username + '/' + github_repository_name + "/stats/contributors"
+        git_api_url = github_url + '/' + github_username + '/' + github_repository_name + "/stats/contributors"
         response = requests.get(git_api_url)
         response = json.loads(response.text)
         compiled_data = {}
