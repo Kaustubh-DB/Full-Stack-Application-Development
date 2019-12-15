@@ -335,4 +335,5 @@ def get_jira_usage():
             "resolved_created_difference": abs(diff_created-diff_resolved)
         }
         all_data.append(data)
+    all_data = sorted(all_data, key = lambda x: x['resolved_created_difference'])
     return jsonify(all_data)

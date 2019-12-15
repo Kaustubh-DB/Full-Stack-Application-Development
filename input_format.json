@@ -4,7 +4,7 @@
     "bamboo_url": "http://149.161.129.142:8085",
     "sonarqube_url": "http:149.160.142.250:9000",
     "assignment_name":"Assignment 1 - Game Maker",
-    "start": "12/05/2019",
+    "start": "12/01/2019",
     "end": "12/16/2019",
     "teams": [
         {       
@@ -13,9 +13,9 @@
             "jira_authorization":"",
             "github_username": "fabpot",
             "github_repository_name":"symfony",
-            "bamboo_key": "<GAUG-PROJ>",
+            "bamboo_key": "GAUG",
             "bamboo_plan_key":"",
-            "sonarqube_key": "<Sonarqube Key!>"
+            "sonarqube_key": "Team6:Team6_Week6-7"
         },
         {   
             "team_name": "Team 2",
@@ -23,9 +23,9 @@
             "jira_authorization":"",
             "github_username": "raj-nandu",
             "github_repository_name":"Food-Delivery-System",
-            "bamboo_key": "<GAUG-PROJ>",
+            "bamboo_key": "PROJ2",
             "bamboo_plan_key":"",
-            "sonarqube_key": "<Sonarqube Key!>"
+            "sonarqube_key": "Team2-Week6_7:Team2-Week6_7"
         }
     ]
 }

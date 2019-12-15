@@ -56,15 +56,13 @@ def create_assignment():
     return "Hi"
 
 
-
-
-@jira.route("/assignments", methods = ['GET'])
+@jira.route("/api/assignments", methods = ['GET'])
 def get_assignment():
     results = []
-
-    for field in db.assignments.find():
-        field['_id'] = str(field['_id'])
+    for field in db.assignments.find({}):
+        field["_id"] = str(field["_id"])
         results.append(field)
+    # return jsonify({"result": results})
     return jsonify(results)
 
 @jira.route("/new/assignment", methods = ['POST'])
@@ -82,7 +80,6 @@ def add_assignment():
 
 @jira.route("/new/teams", methods = ['POST'])
 def add_teams():
-
     data = request.get_json()
     team_name = data["team_name"]
     assignment_id = data["assignment_id"]
@@ -102,3 +99,17 @@ def add_teams():
     }
     db.testing.update({"_id": ObjectId(assignment_id)}, data_assignment)
     return jsonify({'assignment_id': assignment_id})
+
+# @jira.route("/teams", methods = ['GET'])
+# def get_teams():
+#     results = []
+#     data = request.get_json()
+#     assignment_id = data['assignment_id']
+#     assignment_query = {
+#         "_id": ObjectId(assignment_id)
+#     }
+#     data = db.assignments.find_one(assignment_query)
+#     teams = data['teams']
+#     for team in teams:
+
+#     return jsonify(results)

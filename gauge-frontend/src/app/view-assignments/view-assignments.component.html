@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <app-navbar></app-navbar>
+    <div class="container">
+        <div class="card text-white bg-primary mb-3" style="max-width: 160rem;" *ngFor="let assignment of assignments; index as i">
+            <div class="card-header">{{assignment.assignment_name}}</div>
+            <div class="card-body">
+            <!-- <h5 class="card-title">Primary card title</h5> -->
+                <p class="card-text">Start Date: {{ assignment.start }}</p>
+                <p class="card-text">End Date: {{ assignment.end }}</p>
+                <p class="card-text">Number of Teams: {{ assignment.teams.length }}</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary" (click)="getGithubStats(assignment._id)">Github</button>
+                    <button type="button" class="btn btn-secondary" (click)="getSonarqubeStats(assignment._id)">Sonarqube</button>
+                    <button type="button" class="btn btn-secondary" (click)="getJiraStats(assignment._id)">Jira</button>
+                    <button type="button" class="btn btn-secondary" (click)="getBambooStats(assignment._id)">Bamboo</button>
+                    <button type="button" class="btn btn-secondary" (click)="getOverallStats(assignment._id)">Overall Ranking</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
