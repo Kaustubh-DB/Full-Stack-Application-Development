@@ -100,16 +100,70 @@ def add_teams():
     db.testing.update({"_id": ObjectId(assignment_id)}, data_assignment)
     return jsonify({'assignment_id': assignment_id})
 
-# @jira.route("/teams", methods = ['GET'])
-# def get_teams():
-#     results = []
-#     data = request.get_json()
-#     assignment_id = data['assignment_id']
-#     assignment_query = {
-#         "_id": ObjectId(assignment_id)
-#     }
-#     data = db.assignments.find_one(assignment_query)
-#     teams = data['teams']
-#     for team in teams:
 
-#     return jsonify(results)
+@jira.route("/api/overall_rankings", methods = ['POST'])
+def get_overall_rankings():
+    data = request.get_json()
+    assignment_id = data["assignment_id"]
+    data = db.assignments.find_one({"_id": ObjectId(assignment_id)})
+    teams = data['teams']
+
+    all_data = []  
+    d = {}  
+    for team in teams:
+        team_name = team['team_name']
+        jira_id = team['jira_id']
+        sonarqube_id = team['sonarqube_id']
+        github_id = team['github_id']
+        bamboo_id = team['bamboo_id']
+        jira_query = {
+            "_id": ObjectId(jira_id)
+        }
+        jira_data = db.jira.find_one(jira_query)
+        github_query = {
+            "_id": ObjectId(github_id)
+        }
+        github_data = db.github.find_one(github_query)
+        bamboo_query = {
+            "_id": ObjectId(bamboo_id)
+        }
+        bamboo_data = db.bamboo.find_one(bamboo_query)
+        sonarqube_query = {
+            "_id": ObjectId(sonarqube_id)
+        }
+        sonarqube_data = db.sonarqube.find_one(sonarqube_query)
+        team_data = {
+            "resolved_created_difference": jira_data['resolved_created_difference'],
+            "status_code": sonarqube_data['status_code'],
+            "bugs": sonarqube_data['bugs'],
+            "code_smells": sonarqube_data['code_smells'],
+            "regular_commit_count": github_data['regular_commit_count'],
+            "total_commits": github_data["total_commits"],
+            "team_name": team_name,
+            "success": bamboo_data['success'],
+            "total": bamboo_data['total'] 
+        }
+        all_data.append(team_data)
+        d[team_name] = 0
+    all_data = sorted(all_data, key = lambda x: (x['success']/x['total'], x['success']))
+    for i, team_data in enumerate(all_data):
+        d[team_data["team_name"]] += i
+    
+    all_data = sorted(all_data, key = lambda x: (-x['regular_commit_count'], -x['total_commits']))
+    for i, team_data in enumerate(all_data):
+        d[team_data["team_name"]] += i
+    
+    all_data = sorted(all_data, key = lambda x: x['resolved_created_difference'])
+    for i, team_data in enumerate(all_data):
+        d[team_data["team_name"]] += i
+    all_data = sorted(all_data, key = lambda x: (int(x['status_code']), int(x['bugs']), int(x['code_smells'])))
+    for i, team_data in enumerate(all_data):
+        d[team_data["team_name"]] += i
+    d = {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
+    res = {
+        "team_names": list(d.keys())
+    }
+    
+        
+
+    return jsonify(res)
