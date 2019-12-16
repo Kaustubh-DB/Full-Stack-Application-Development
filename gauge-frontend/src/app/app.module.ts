@@ -17,7 +17,8 @@ import { SonarqubeStatisticsComponent } from './sonarqube-statistics/sonarqube-s
 import { OverallStatisticsComponent } from './overall-statistics/overall-statistics.component';
 import { TeamGithubStatisticsComponent } from './team-github-statistics/team-github-statistics.component';
 import { TeamBambooStatisticsComponent } from './team-bamboo-statistics/team-bamboo-statistics.component';
-import { TeamJiraStatisticsComponent } from './team-jira-statistics/team-jira-statistics.component'
+import { TeamJiraStatisticsComponent } from './team-jira-statistics/team-jira-statistics.component';
+import { OverallRankingsComponent } from './overall-rankings/overall-rankings.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +33,7 @@ import { TeamJiraStatisticsComponent } from './team-jira-statistics/team-jira-st
     TeamGithubStatisticsComponent,
     TeamBambooStatisticsComponent,
     TeamJiraStatisticsComponent,
+    OverallRankingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,7 @@ import { TeamJiraStatisticsComponent } from './team-jira-statistics/team-jira-st
     ReactiveFormsModule,
     RouterModule.forRoot([
       {
-        path: "uploadjson",
+        path: "",
         component: UploadJsonComponent
       },
       {
@@ -79,6 +81,10 @@ import { TeamJiraStatisticsComponent } from './team-jira-statistics/team-jira-st
       {
         path: "teamJiraStatistics/:assignment_id/:team_index",
         component: TeamJiraStatisticsComponent
+      },
+      {
+        path: "overallrankings/:assignment_id",
+        component: OverallRankingsComponent
       }
     ]),
     BrowserAnimationsModule

@@ -9,20 +9,21 @@
 </head>
 <body>
     <app-navbar></app-navbar>
+    <div>
+        <h3 class="temp">Select View Statistics To View GitHub Usage Reports</h3>
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="card text-white bg-primary mb-3" style="max-width: 160rem;" *ngFor="let team of github_data; index as i">
-                <div class="card-header">{{team.team_name}}</div>
-                <div class="card-body">
+            <div class="card text-white bg-info mb-3" style="max-width: 160rem;" *ngFor="let team of github_data; index as i">
+                <div class="card-header">GitHub Ranking: {{ i+1 }}</div>
+                <div class="card-body bg-light">
                 <!-- <h5 class="card-title">Primary card title</h5> -->
                     <!-- <p class="card-text">Team Name: {{ team.team_name }}</p> -->
-                    <p class="card-text">Team Rank {{ i+1 }}</p>
-                    <button type="button" class="btn btn-primary" (click) = "viewGithubStatistics(i)">View Statistics</button>
+                    <p class="card-text">Team Name: {{team.team_name}}</p>
+                    <button type="button" class="btn btn-secondary" (click) = "viewGithubStatistics(i)">View Statistics</button>
                     
                 </div>
             </div>
             
-        </div>
     </div>
     
 

@@ -10,10 +10,13 @@
 </head>
 <body>
     <app-navbar></app-navbar>
+    <div>
+        <h3 class="temp">Please Select Assignment and Tool to View Statistics</h3>
+    </div>
     <div class="container">
-        <div class="card text-white bg-primary mb-3" style="max-width: 160rem;" *ngFor="let assignment of assignments; index as i">
-            <div class="card-header">{{assignment.assignment_name}}</div>
-            <div class="card-body">
+        <div class="card text-white bg-info mb-3" style="max-width: 45rem;" *ngFor="let assignment of assignments; index as i">
+            <div class="card-header bg-info">{{assignment.assignment_name}}</div>
+            <div class="card-body bg-light">
             <!-- <h5 class="card-title">Primary card title</h5> -->
                 <p class="card-text">Start Date: {{ assignment.start }}</p>
                 <p class="card-text">End Date: {{ assignment.end }}</p>

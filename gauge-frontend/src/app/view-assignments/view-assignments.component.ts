@@ -38,6 +38,7 @@ export class ViewAssignmentsComponent implements OnInit {
   }
   getOverallStats(assignment_id){
     console.log(assignment_id)
+    this.router.navigate(['/overallrankings', assignment_id])
   }
   ngOnInit() {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json'

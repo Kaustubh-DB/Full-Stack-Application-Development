@@ -10,11 +10,9 @@
 <body>
     <app-navbar></app-navbar>
     <div class="container">
-        <div class="row">
-            <div class="card text-white bg-primary mb-3" style="max-width: 160rem;" >
-                <div class="card-header">Team Rank: {{ team_index+1 }}</div>
-                <div class="card-body">
-                <h5 class="card-title">Primary card title</h5>
+            <div class="card text-white bg-info mb-3" style="max-width: 160rem;" >
+                <div class="card-header">Bamboo Ranking: {{ team_index+1 }}</div>
+                <div class="card-body bg-light">
                     <p class="card-text">Team Name: {{ team_data.team_name }}</p>
                     <p class="card-text">Number of Successful Builds: {{team_data.success}}</p>
                     <p class="card-text">Total Number of Builds: {{team_data.total}}</p>
@@ -23,8 +21,10 @@
                 </div>
                 
             </div>
-            <canvas id = "chart"></canvas>  
-        </div>
+             
+    </div>
+    <div class="container">
+        <canvas id = "chart"></canvas>
     </div>
 </body>
 </html>

@@ -10,18 +10,27 @@
 </head>
 <body>
     <app-navbar></app-navbar>
+    <div>
+        <h2 class="temp">Welcome To Gauge: An Eval Tool!!</h2>
+    </div>
     <div class="container">
+        
         <form action="post" [formGroup]="jsonForm" (ngSubmit)=onSubmit(jsonForm.value)>
+            <div>
+                <p>To View The Statistics, Please Upload Assignment JSON file</p>
+            </div>
             <div class="custom-file">
                 <input type="file" required class="custom-file-input" id="assignment" formControlName="assignment" ng-model="assignment" (change)="onFileSelected($event)">
                 <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
+            <br>
+            <div>
+                <button type="submit" id="submit-button" class="btn btn-md btn-success">Submit</button>
+            </div>
             
-            <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-
         </form>
         
     </div>
-    
+
 </body>
 </html>

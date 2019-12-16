@@ -9,11 +9,11 @@
 </head>
 <body>
     <app-navbar></app-navbar>
+    <h3 class="temp">Sonarqube Statistics & Rankings</h3>
     <div class="container">
-        <div class="row">
-            <div class="card text-white bg-primary mb-3" style="max-width: 160rem;" *ngFor="let team of sonarqube_data; index as i">
-                <div class="card-header">Team Rank: {{ i+1 }}</div>
-                <div class="card-body">
+            <div class="card text-white bg-info mb-3" style="max-width: 160rem;" *ngFor="let team of sonarqube_data; index as i">
+                <div class="card-header">Sonarqube Ranking: {{ i+1 }}</div>
+                <div class="card-body bg-light">
                 <!-- <h5 class="card-title">Primary card title</h5> -->
                     <!-- <p class="card-text">Team Name: {{ team.team_name }}</p> -->
                     <p class="card-text">Team Name: {{team.team_name}}</p>
@@ -25,7 +25,6 @@
                 </div>
             </div>
             
-        </div>
     </div>
     
 

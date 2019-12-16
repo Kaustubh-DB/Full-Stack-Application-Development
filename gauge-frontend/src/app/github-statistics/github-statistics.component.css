@@ -1,0 +1,13 @@
+.container{
+    margin-top: 9%;
+    width: fit-content;
+}
+.card{
+    /* margin-left: 2%; */
+}
+.card-text{
+    color: black;
+}
+.temp{
+    text-align: center;
+}

@@ -1,0 +1,10 @@
+canvas{
+    width: 1000px !important;
+    height: 500px !important;
+}
+.card-text{
+    color: black;
+}
+.container{
+    width: fit-content;
+}

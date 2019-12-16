@@ -1,0 +1,23 @@
+.card-body{
+    background-color: F8F9FA;
+}
+.container{
+    margin-top: 7%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+.myclass{
+    background-color: #b2dfdb;
+}
+.card-text{
+    color: black;
+}
+button{
+    margin-left: 2px;
+    margin-right: 3px;
+}
+.temp{
+    text-align: center;
+}

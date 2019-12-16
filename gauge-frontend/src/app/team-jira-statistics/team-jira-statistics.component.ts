@@ -53,7 +53,7 @@ export class TeamJiraStatisticsComponent implements OnInit {
             label: 'Created Issues',
             data: this.created_resolved_data['created_issues'],
             fill:true,
-            backgroundColor: "rgba(255, 0, 255,0.75)",
+            backgroundColor: "rgba(240, 31, 31, 0.8)",
             lineTension:0.2,
             borderColor:"red",
             borderWidth: 1
@@ -131,6 +131,7 @@ export class TeamJiraStatisticsComponent implements OnInit {
         data: {
         labels: this.resolution_time_data['dates'],
         datasets: [{
+            backgroundColor: "rgba(240, 31, 31, 0.8)",
             label: 'Average Resolution Time',
             data: this.resolution_time_data['average_resolution_time'],
             borderWidth: 1

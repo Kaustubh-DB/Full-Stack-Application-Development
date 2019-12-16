@@ -50,24 +50,31 @@ export class TeamGithubStatisticsComponent implements OnInit {
         data: {
         labels: this.team_data['week_list'],
         datasets: [{
+            backgroundColor: "rgba(30, 159, 21, 0.8)",
             label: 'Number of Additions each week',
             data: this.team_data['additions'],
-            
+          //   backgroundColor: [
+          //     'rgba(30, 159, 21, 0.8)',
+          //     'rgba(30, 159, 21, 0.8)',
+              
+          // ],
+          // borderColor: [
+          //     'rgba(255,99,132,1)',
+          //     'rgba(54, 162, 235, 1)',
+          //     'rgba(255, 206, 86, 1)',
+          //     'rgba(75, 192, 192, 1)',
+          //     'rgba(153, 102, 255, 1)',
+          //     'rgba(255, 159, 64, 1)'
+          // ],
             borderWidth: 1
         }]
         }, 
+        
         options: {
           title:{
-              text:"Bar Chart",
+              text:"",
               display:true
           },
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
         }
       });
 
@@ -77,6 +84,7 @@ export class TeamGithubStatisticsComponent implements OnInit {
         data: {
         labels: this.team_data['week_list'],
         datasets: [{
+            backgroundColor: "rgba(240, 31, 31, 0.8)",
             label: 'Number of Deletions each week',
             data: this.team_data['deletions'],
             
@@ -85,7 +93,7 @@ export class TeamGithubStatisticsComponent implements OnInit {
         }, 
         options: {
           title:{
-              text:"Bar Chart",
+              text:"",
               display:true
           },
           scales: {
@@ -104,6 +112,7 @@ export class TeamGithubStatisticsComponent implements OnInit {
         data: {
         labels: this.team_data['week_list'],
         datasets: [{
+            backgroundColor: "rgba(33, 201, 173, 0.8)",
             label: 'Number of Commits each week',
             data: this.team_data['commits'],
             borderWidth: 1
@@ -111,7 +120,7 @@ export class TeamGithubStatisticsComponent implements OnInit {
         }, 
         options: {
           title:{
-              text:"Bar Chart",
+              text:"",
               display:true
           },
           scales: {
@@ -129,15 +138,15 @@ export class TeamGithubStatisticsComponent implements OnInit {
         data: {
         labels: this.team_data['week_list'],
         datasets: [{
-            label: 'Number of Additions each week',
+            label: 'Average Number of New Line Added Each Week',
             data: this.team_data['average_new_lines'],
-            
+            backgroundColor: "rgba(42, 166, 228, 0.8)",
             borderWidth: 1
         }]
         }, 
         options: {
           title:{
-              text:"Bar Chart",
+              text:"",
               display:true
           },
           scales: {
