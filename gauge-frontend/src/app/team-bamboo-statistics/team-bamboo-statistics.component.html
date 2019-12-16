@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <app-navbar></app-navbar>
+    <div class="container">
+        <div class="row">
+            <div class="card text-white bg-primary mb-3" style="max-width: 160rem;" >
+                <div class="card-header">Team Rank: {{ team_index+1 }}</div>
+                <div class="card-body">
+                <h5 class="card-title">Primary card title</h5>
+                    <p class="card-text">Team Name: {{ team_data.team_name }}</p>
+                    <p class="card-text">Number of Successful Builds: {{team_data.success}}</p>
+                    <p class="card-text">Total Number of Builds: {{team_data.total}}</p>
+                    <p class="card-text">Percentage of Successful Builds: {{team_data.success*100 / team_data.total | number:'0.1-2'}} %</p>
+                                      
+                </div>
+                
+            </div>
+            <canvas id = "chart"></canvas>  
+        </div>
+    </div>
+</body>
+</html>

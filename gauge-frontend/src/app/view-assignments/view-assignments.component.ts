@@ -23,12 +23,18 @@ export class ViewAssignmentsComponent implements OnInit {
   }
   getSonarqubeStats(assignment_id){
     console.log(assignment_id)
+    this.router.navigate(['/sonarqubestatistics', assignment_id]);
+
   }
   getJiraStats(assignment_id){
     console.log(assignment_id)
+    this.router.navigate(['/jirastatistics', assignment_id]);
+
   }
+
   getBambooStats(assignment_id){
     console.log(assignment_id)
+    this.router.navigate(['/bamboostatistics', assignment_id]);
   }
   getOverallStats(assignment_id){
     console.log(assignment_id)

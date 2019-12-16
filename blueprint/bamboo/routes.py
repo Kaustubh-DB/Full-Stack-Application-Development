@@ -13,7 +13,7 @@ client = MongoClient(connection)
 db = client['heroku_kx6px18d']
 
 
-@jira.route("/build_success_rate", methods = ["POST"])
+@jira.route("/api/build_success_rate", methods = ["POST"])
 def build_success_rate():
     data = request.get_json()
     assignment_id = data["assignment_id"]
@@ -52,15 +52,18 @@ def build_success_rate():
 
         data_update = {
             "$set":{
+                "team_name": team_name,
                 "success": success,
                 "total": response['results']['result'][0]['buildNumber']
             }
         }
         data = {
+            "team_name": team_name,
             "success": success,
             "total": response['results']['result'][0]['buildNumber']
         }
 
         res = db.bamboo.update_one({"_id": ObjectId(bamboo_id)}, data_update)
         all_data.append(data)
+    all_data = sorted(all_data, key = lambda x: (x['success']/x['total'], x['success']))
     return jsonify(all_data)

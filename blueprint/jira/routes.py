@@ -18,7 +18,7 @@ db = client['heroku_kx6px18d']
 
 
 
-@jira.route("/api/createResolvedCumulative", methods=["GET"])
+@jira.route("/api/createResolvedCumulative", methods=["POST"])
 def create_resolved_cumulative():
     data = request.get_json()
     assignment_id = data["assignment_id"]
@@ -73,7 +73,7 @@ def create_resolved_cumulative():
 
 
 
-@jira.route("/api/assignee_report", methods=["GET"])
+@jira.route("/api/assignee_report", methods=["POST"])
 def assignee_report_chart():
 
     data = request.get_json()
@@ -97,11 +97,16 @@ def assignee_report_chart():
         for issue in issues:
             issue = dict(issue)
             map_assignee[issue['assignee_name']] = map_assignee.get(issue['assignee_name'], 0) + 1
-        all_data.append(map_assignee)
+        temp = {
+            "num_issues": list(map_assignee.values()),
+            "assignees": list(map_assignee.keys())
+        }
+
+        all_data.append(temp)
     return jsonify(all_data)
 
 
-@jira.route("/api/resolution_time", methods=['GET'])
+@jira.route("/api/resolution_time", methods=['POST'])
 def resolution_time_chart():
     data = request.get_json()
     assignment_id = data["assignment_id"]
@@ -158,7 +163,7 @@ def resolution_time_chart():
     return jsonify(all_data)
 
 
-@jira.route("/api/created_resolved", methods=['GET'])
+@jira.route("/api/created_resolved", methods=['POST'])
 def created_resolved_chart():
     data = request.get_json()
     assignment_id = data["assignment_id"]

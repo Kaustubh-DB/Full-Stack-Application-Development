@@ -7,6 +7,8 @@ from blueprint.jira.routes import jira as jira
 from blueprint.assignment.routes import jira as assignment
 from blueprint.bamboo.routes import jira as bamboo
 from blueprint.github.routes import jira as github
+from blueprint.sonarqube.routes import jira as sonarqube
+
 import pymongo
 
 app = Flask(__name__, static_folder='front-end/build')
@@ -18,6 +20,8 @@ app.register_blueprint(jira)
 app.register_blueprint(assignment)
 app.register_blueprint(bamboo)
 app.register_blueprint(github)
+app.register_blueprint(sonarqube)
+
 
 # Serve React App
 @app.route('/', defaults={'path': ''})

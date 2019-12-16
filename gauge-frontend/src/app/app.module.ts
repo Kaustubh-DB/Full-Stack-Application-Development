@@ -15,7 +15,9 @@ import { JiraStatisticsComponent } from './jira-statistics/jira-statistics.compo
 import { BambooStatisticsComponent } from './bamboo-statistics/bamboo-statistics.component';
 import { SonarqubeStatisticsComponent } from './sonarqube-statistics/sonarqube-statistics.component';
 import { OverallStatisticsComponent } from './overall-statistics/overall-statistics.component';
-import { TeamGithubStatisticsComponent } from './team-github-statistics/team-github-statistics.component'
+import { TeamGithubStatisticsComponent } from './team-github-statistics/team-github-statistics.component';
+import { TeamBambooStatisticsComponent } from './team-bamboo-statistics/team-bamboo-statistics.component';
+import { TeamJiraStatisticsComponent } from './team-jira-statistics/team-jira-statistics.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +30,8 @@ import { TeamGithubStatisticsComponent } from './team-github-statistics/team-git
     SonarqubeStatisticsComponent,
     OverallStatisticsComponent,
     TeamGithubStatisticsComponent,
+    TeamBambooStatisticsComponent,
+    TeamJiraStatisticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +71,14 @@ import { TeamGithubStatisticsComponent } from './team-github-statistics/team-git
       {
         path: "teamGithubStatistics/:assignment_id/:team_index",
         component: TeamGithubStatisticsComponent
+      },
+      {
+        path: "teamBambooStatistics/:assignment_id/:team_index",
+        component: TeamBambooStatisticsComponent
+      },
+      {
+        path: "teamJiraStatistics/:assignment_id/:team_index",
+        component: TeamJiraStatisticsComponent
       }
     ]),
     BrowserAnimationsModule

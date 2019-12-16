@@ -30,7 +30,6 @@ export class TeamGithubStatisticsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.assignment_id = this.activatedroute.snapshot.params['assignment_id']
     this.team_index = this.activatedroute.snapshot.params['team_index']
     let headers = new HttpHeaders({ 'Content-Type': 'application/json'
